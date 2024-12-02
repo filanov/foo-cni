@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"log/syslog"
 	"os"
@@ -27,10 +28,12 @@ func main() {
 		log.Println("Setting up network...")
 		// Add your network setup logic here
 		// fmt.Fprintf(os.Stdout, `{"cniVersion": "%s", "interfaces": [{"name": "eth0"}]}`, config.CniVersion)
+		fmt.Println("{}")
 		os.Exit(0)
 	case "DEL":
 		log.Println("Cleaning up network...")
 		// Add your network cleanup logic here
+		fmt.Println("{}")
 		os.Exit(0)
 	default:
 		log.Printf("Unsupported CNI_COMMAND: %s\n", cmd)
