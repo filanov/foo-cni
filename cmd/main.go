@@ -3,19 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
-	"log/syslog"
 	"os"
 )
 
 func main() {
 
-	// Log to syslog
-	logWriter, err := syslog.New(syslog.LOG_SYSLOG, "My Awesome App")
+	logFile, err := os.OpenFile("/var/log/foo-cni.log", os.O_APPEND|os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
-		log.Fatalln("Unable to set logfile:", err.Error())
+		log.Fatal("failed to open log file")
 	}
-	// set the log output
-	log.SetOutput(logWriter)
+	defer logFile.Close()
+
+	log.SetOutput(logFile)
 
 	// Parse command (ADD/DEL)
 	cmd := os.Getenv("CNI_COMMAND")
