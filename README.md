@@ -44,6 +44,20 @@ cat /etc/cni/net.d/00-multus.conf  | jq .
 }
 ```
 
+add specific cni configuration
+
+```bash
+cat << EOF > /etc/cni/net.d/20-foo-cni.conf
+{
+    "cniVersion": "0.3.1",
+    "name": "foo-cni",
+    "type": "foo",
+    "logFile": "/var/log/foo-cni.log",
+    "logLevel": "info",
+}
+EOF
+```
+
 create a network attachment definition for the cni
 
 ```bash
