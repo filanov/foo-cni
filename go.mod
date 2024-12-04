@@ -1,3 +1,5 @@
 module github.com/filanov/foo-cni
 
 go 1.23.2
+
+require github.com/containernetworking/cni v1.2.3
