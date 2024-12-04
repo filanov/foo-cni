@@ -1,62 +1,8 @@
 # foo-cni
 
-## add cni as a multus plugin
+## add cni to k8s
 
 build and copy the binary under `/opt/cni/bin/foo-cni`
-
-add foo-cni as a multus plugin
-
-```bash
-cat /etc/cni/net.d/00-multus.conf  | jq .
-{
-  "cniVersion": "0.3.1",
-  "name": "multus-cni-network",
-  "type": "multus",
-  "capabilities": {
-    "portMappings": true
-  },
-  "cniConf": "/host/etc/cni/multus/net.d",
-  "kubeconfig": "/etc/cni/net.d/multus.d/multus.kubeconfig",
-  "delegates": [
-    {
-      "cniVersion": "0.3.1",
-      "name": "cbr0",
-      "plugins": [
-        {
-          "delegate": {
-            "hairpinMode": true,
-            "isDefaultGateway": true
-          },
-          "type": "flannel"
-        },
-        {
-          "capabilities": {
-            "portMappings": true
-          },
-          "type": "portmap"
-        },
-        {
-          "type": "foo-cni"
-        }
-      ]
-    }
-  ]
-}
-```
-
-add specific cni configuration
-
-```bash
-cat << EOF > /etc/cni/net.d/20-foo-cni.conf
-{
-    "cniVersion": "0.3.1",
-    "name": "foo-cni",
-    "type": "foo",
-    "logFile": "/var/log/foo-cni.log",
-    "logLevel": "info",
-}
-EOF
-```
 
 create a network attachment definition for the cni
 
@@ -73,7 +19,6 @@ spec:
   }'
 EOF
 ```
-
 
 create a dummy pod to try
 
